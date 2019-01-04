@@ -1,90 +1,125 @@
 ﻿using InstaSharper.API;
 using InstaSharper.API.Builder;
 using InstaSharper.Classes;
-using InstaSharper.Classes.Models;
 using InstaSharper.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using InstaSharper;
 
-
-namespace InstaTutorial
+namespace InstaTeste
 {
     class Program
     {
-
-        #region Hidden
-        private const string username = "ferreira_gabriel1996";
-        private const string password = "498776498776";
-        #endregion
-
+        private const string username = "";
+        private const string password = "";
         private static UserSessionData user;
         private static IInstaApi api;
-
 
         static void Main(string[] args)
         {
             user = new UserSessionData();
             user.UserName = username;
             user.Password = password;
-
             Login();
             Console.Read();
         }
+
         public static async void Login()
         {
-            api = InstaApiBuilder.CreateBuilder()
-                .SetUser(user)
-                .UseLogger(new DebugLogger(LogLevel.Exceptions))
-                //.SetRequestDelay(TimeSpan.FromSeconds(8))
-
-                .Build();
-
+            api = InstaApiBuilder.CreateBuilder().SetUser(user)
+                    .UseLogger(new DebugLogger(LogLevel.Exceptions))
+                    //.SetRequestDelay(TimeSpan.FromSeconds(8))
+                    .Build();
 
             var loginRequest = await api.LoginAsync();
+
             if (loginRequest.Succeeded)
             {
-                Console.WriteLine("logged in");
-                PullUserPosts("ferreira_gabriel1996");
+                Console.WriteLine("Logado");
+                //DesseguirQuemEuSigoENaoMeSegue(username);
+                //BloqueiaDesbloqueia(username);
             }
             else
-                Console.WriteLine("error logging in \n" + loginRequest.Info.Message);
-        }
-        public static async void PullUserPosts(string userToScrape)
-        {
-            IResult<InstaUser> userSearch = await api.GetUserAsync(userToScrape);
-            Console.WriteLine($"USER:{userSearch.Value.FullName}\n\tFollowers: {userSearch.Value.FollowersCount}\n\t {userSearch.Value.IsVerified}");
-
-            IResult<InstaMediaList> media = await api.GetUserMediaAsync(userToScrape, PaginationParameters.MaxPagesToLoad(5));
-            List<InstaMedia> mediaList = mediaList = media.Value.ToList();
-
-            for (int i = 0; i < mediaList.Count; i++)
             {
-                InstaMedia m = mediaList[i];
-                if (m != null && m.Caption != null)
-                {
-                    string captionText = m.Caption.Text;
-                    if (captionText != null)
-                    {
-                        if (m.MediaType == InstaMediaType.Image)
-                        {
-                            for (int X = 0; X < m.Images.Count; X++)
-                            {
-                                if (m.Images[X] != null && m.Images[X].URI != null)
-                                {
-                                    Console.WriteLine($"\n\t{captionText}");
-                                    string uri = m.Images[X].URI;
-
-                                    Console.Write($"{uri}\n\t");
-                                }
-                            }
-                        }
-                    }
-                }
+                Console.WriteLine("Erro: {0}", loginRequest.Info.Message);
             }
         }
+        public static async void MaisCurtidasNasFotos(string username)
+        {
+
+        }
+        
+        //public static async void DesseguirQuemEuSigoENaoMeSegue(string username)
+        //{
+
+
+        //    var quemMeSegue = await api.GetUserFollowersAsync(username, PaginationParameters.MaxPagesToLoad(5));
+        //    var quemEuSigo = await api.GetUserFollowingAsync(username, PaginationParameters.MaxPagesToLoad(5));
+
+        //    foreach (var carinhaQueToSeguindo in quemEuSigo.Value.ToList())
+        //    {
+        //        var xx = quemMeSegue.Value.Any(q => q.Pk == carinhaQueToSeguindo.Pk);
+        //        if (!xx)
+        //        {
+        //            await api.UnFollowUserAsync(carinhaQueToSeguindo.Pk);
+        //        }
+        //    }
+        //}
+
+        //public static async void curtifoto(string username)
+        //{
+        //    var viuMinhaUltimaFoto = await api.
+        //    var ultimaFoto = await api.SendDirectMessage
+        //}
+        //public static async void BloqueiaDesbloqueia(string username)
+        //{
+        //    var quemMeSegue = await api.GetUserFollowersAsync(username, PaginationParameters.MaxPagesToLoad(5));
+        //    List<Usuarios> usuario = new List<Usuarios>();
+        //    foreach (var carinhaQueMeSegue in quemMeSegue.Value.ToList())
+        //    {
+
+        //        var todasAsPostagensDoNego = await api.GetUserMediaAsync(carinhaQueMeSegue.UserName, PaginationParameters.MaxPagesToLoad(5));
+        //        var quantidadeDePosts = todasAsPostagensDoNego.Value.Count;
+
+
+
+
+        //        var asudhiusahd = await api.
+
+        //        var idDoCara = carinhaQueMeSegue.Pk;
+
+        //        var quemSegueOCarinha = await api.GetUserFollowersAsync(carinhaQueMeSegue.UserName, PaginationParameters.MaxPagesToLoad(5));
+        //        var quantidadeDeNegoQueSegueOCarinha = quemSegueOCarinha.Value.Count;
+
+        //        var quantidadeCurtidaQueOCaraTemQueTer = quantidadeDeNegoQueSegueOCarinha * 0.14;
+        //        var quantidadeCurtidasNasUltimas5Fotos = 0;
+
+        //        for (int i = 0; i < 5; i++)
+        //        {
+        //            quantidadeCurtidasNasUltimas5Fotos += todasAsPostagensDoNego.Value[i].LikesCount;
+        //        }
+
+
+
+
+        //        if (quantidadeCurtidasNasUltimas5Fotos < quantidadeCurtidaQueOCaraTemQueTer + 50)
+        //        {
+
+
+        //        }
+
+
+
+        //        if(quantidadeDePosts == 0 || carinhaQueMeSegue.ProfilePictureId == null || )
+        //        {
+        //            await api.BlockUserAsync(idDoCara);
+        //            await api.UnBlockUserAsync(idDoCara);
+        //        }
+
+        //    }
+        //}
+
     }
+
 }
+
