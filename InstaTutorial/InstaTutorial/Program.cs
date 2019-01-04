@@ -40,6 +40,7 @@ namespace InstaTutorial
                 .SetUser(user)
                 .UseLogger(new DebugLogger(LogLevel.Exceptions))
                 //.SetRequestDelay(TimeSpan.FromSeconds(8))
+
                 .Build();
 
 
