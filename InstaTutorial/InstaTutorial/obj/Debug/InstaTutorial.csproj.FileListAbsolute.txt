@@ -1,0 +1,11 @@
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\obj\Debug\InstaTutorial.csprojAssemblyReference.cache
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\obj\Debug\InstaTutorial.csproj.CoreCompileInputs.cache
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\InstaTutorial.exe.config
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\InstaTutorial.exe
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\InstaTutorial.pdb
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\InstaSharper.dll
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\Newtonsoft.Json.dll
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\bin\Debug\Newtonsoft.Json.xml
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\obj\Debug\InstaTutorial.csproj.CopyComplete
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\obj\Debug\InstaTutorial.exe
+C:\Users\gvamaral\source\repos\InstaTutorial\InstaTutorial\obj\Debug\InstaTutorial.pdb
