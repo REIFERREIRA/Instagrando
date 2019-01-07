@@ -5,13 +5,14 @@ using InstaSharper.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using InstaTutorial;
 
 namespace InstaTeste
 {
-    class Program
+    public class Program
     {
-        private const string username = "";
-        private const string password = "";
+        private const string username = "ferreira_gabriel1996";
+        private const string password = "498776498776";
         private static UserSessionData user;
         private static IInstaApi api;
 
@@ -38,19 +39,48 @@ namespace InstaTeste
                 Console.WriteLine("Logado");
                 //DesseguirQuemEuSigoENaoMeSegue(username);
                 //BloqueiaDesbloqueia(username);
+                MaisCurtidasNasFotos(username);
             }
             else
             {
                 Console.WriteLine("Erro: {0}", loginRequest.Info.Message);
             }
         }
+        
         public static async void MaisCurtidasNasFotos(string username)
         {
+            List<MaisCurtidas> MaisCurtidas = new List<MaisCurtidas>();
+            var publicacoes = await api.GetUserMediaAsync(username, PaginationParameters.MaxPagesToLoad(5));
+            foreach (var publicacao in publicacoes.Value.ToList())
+            {
+                var chaveprimaria = publicacao.Pk;
+                var foto = await api.GetMediaLikersAsync(chaveprimaria);
+                foreach (var curtida in foto.Value.ToList())
+                {
+                    foreach (var teste in MaisCurtidas.ToList() )
+                    {
+                        var t = teste.
+                    }
+                    var nomedosqcurtiram = curtida.UserName;
+                    var matchingValues = MaisCurtidas.Where(s => s.Contains());
+                    if (nomedosqcurtiram == MaisCurtidas)
+                    {
+                        //MaisCurtidas.curtidas = +1;
+                    }
+                    else
+                    {
 
+                    }
+                        //MaisCurtidas.nome = nomedosqcurtiram;
+                        //MaisCurtidas.curtidas = +1;
+                }
+            }
+            
+            
         }
-        
+
         //public static async void DesseguirQuemEuSigoENaoMeSegue(string username)
-        //{
+        //{ 
 
 
         //    var quemMeSegue = await api.GetUserFollowersAsync(username, PaginationParameters.MaxPagesToLoad(5));
