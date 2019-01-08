@@ -11,8 +11,8 @@ namespace InstaTeste
 {
     public class Program
     {
-        private const string username = "viniciusbrittoe";
-        private const string password = "capirotto";
+        private const string username = "ferreira_gabriel1996";
+        private const string password = "498776498776";
         private static UserSessionData user;
         private static IInstaApi api;
 
@@ -42,8 +42,8 @@ namespace InstaTeste
                 //await api.GetUserInfoByUsernameAsync("duduaudsonn");
                 //var jesus = await api.GetUserInfoByUsernameAsync("duduaudsonn");
                 //var jesus = await api.GetUserStoryFeedAsync(5597106522);
-                
-                MaisCurtidasNasFotos("mari_araujomendes");
+                var Comentario = await api.CommentMediaAsync("1864758539671613875", "@gustavo.elizia");
+                //MaisCurtidasNasFotos("carol.m10");
             }
             else
             {
@@ -64,19 +64,19 @@ namespace InstaTeste
                 {
                     if (MaisCurtidas?.Any() != false)
                     {
-                            //var teucu = MaisCurtidas.Where(q => q.nome == curtida.FullName); armazena a variavel no teucu
-                            if (MaisCurtidas.Any(q => q.nome == curtida.UserName))
-                            {
-                                MaisCurtidas.FindAll(q => q.nome == curtida.UserName).ForEach(q => q.curtidas = q.curtidas + 1);
+                        //var teucu = MaisCurtidas.Where(q => q.nome == curtida.FullName); armazena a variavel no teucu
+                        if (MaisCurtidas.Any(q => q.nome == curtida.UserName))
+                        {
+                            MaisCurtidas.FindAll(q => q.nome == curtida.UserName).ForEach(q => q.curtidas = q.curtidas + 1);
 
-                            }
-                            else
-                            {
-                                MaisCurtidas c1 = new MaisCurtidas();
-                                c1.curtidas++;
-                                c1.nome = curtida.UserName;
-                                MaisCurtidasAuxiliar.Add(c1);
-                            }
+                        }
+                        else
+                        {
+                            MaisCurtidas c1 = new MaisCurtidas();
+                            c1.curtidas++;
+                            c1.nome = curtida.UserName;
+                            MaisCurtidasAuxiliar.Add(c1);
+                        }
                     }
                     else
                     {
@@ -94,11 +94,11 @@ namespace InstaTeste
             }
 
             var maisCurtidasOrdenado = MaisCurtidas.OrderByDescending(q => q.curtidas);
-            foreach(var item in maisCurtidasOrdenado)
+            foreach (var item in maisCurtidasOrdenado)
             {
-                Console.WriteLine("{0}  ---  {1}",item.nome , item.curtidas);
+                Console.WriteLine("{0}  ---  {1}", item.nome, item.curtidas);
             }
-            
+
         }
 
 
