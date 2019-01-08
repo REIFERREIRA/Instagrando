@@ -11,8 +11,8 @@ namespace InstaTeste
 {
     public class Program
     {
-        private const string username = "ferreira_gabriel1996";
-        private const string password = "498776498776";
+        private const string username = "viniciusbrittoe";
+        private const string password = "capirotto";
         private static UserSessionData user;
         private static IInstaApi api;
 
@@ -39,45 +39,68 @@ namespace InstaTeste
                 Console.WriteLine("Logado");
                 //DesseguirQuemEuSigoENaoMeSegue(username);
                 //BloqueiaDesbloqueia(username);
-                MaisCurtidasNasFotos(username);
+                //await api.GetUserInfoByUsernameAsync("duduaudsonn");
+                //var jesus = await api.GetUserInfoByUsernameAsync("duduaudsonn");
+                //var jesus = await api.GetUserStoryFeedAsync(5597106522);
+                
+                MaisCurtidasNasFotos("mari_araujomendes");
             }
             else
             {
                 Console.WriteLine("Erro: {0}", loginRequest.Info.Message);
             }
         }
-        
+
         public static async void MaisCurtidasNasFotos(string username)
         {
             List<MaisCurtidas> MaisCurtidas = new List<MaisCurtidas>();
-            var publicacoes = await api.GetUserMediaAsync(username, PaginationParameters.MaxPagesToLoad(5));
+            List<MaisCurtidas> MaisCurtidasAuxiliar = new List<MaisCurtidas>();
+            var publicacoes = await api.GetUserMediaAsync(username, PaginationParameters.MaxPagesToLoad(8));
             foreach (var publicacao in publicacoes.Value.ToList())
             {
                 var chaveprimaria = publicacao.Pk;
                 var foto = await api.GetMediaLikersAsync(chaveprimaria);
                 foreach (var curtida in foto.Value.ToList())
                 {
-                    foreach (var teste in MaisCurtidas.ToList() )
+                    if (MaisCurtidas?.Any() != false)
                     {
-                        var t = teste.
-                    }
-                    var nomedosqcurtiram = curtida.UserName;
-                    var matchingValues = MaisCurtidas.Where(s => s.Contains());
-                    if (nomedosqcurtiram == MaisCurtidas)
-                    {
-                        //MaisCurtidas.curtidas = +1;
+                            //var teucu = MaisCurtidas.Where(q => q.nome == curtida.FullName); armazena a variavel no teucu
+                            if (MaisCurtidas.Any(q => q.nome == curtida.UserName))
+                            {
+                                MaisCurtidas.FindAll(q => q.nome == curtida.UserName).ForEach(q => q.curtidas = q.curtidas + 1);
+
+                            }
+                            else
+                            {
+                                MaisCurtidas c1 = new MaisCurtidas();
+                                c1.curtidas++;
+                                c1.nome = curtida.UserName;
+                                MaisCurtidasAuxiliar.Add(c1);
+                            }
                     }
                     else
                     {
-
+                        MaisCurtidas c = new MaisCurtidas();
+                        c.nome = curtida.UserName;
+                        c.curtidas = 1;
+                        MaisCurtidas.Add(c);
                     }
-                        //MaisCurtidas.nome = nomedosqcurtiram;
-                        //MaisCurtidas.curtidas = +1;
                 }
+                foreach (var item in MaisCurtidasAuxiliar)
+                {
+                    MaisCurtidas.Add(item);
+                }
+                MaisCurtidasAuxiliar.Clear();
+            }
+
+            var maisCurtidasOrdenado = MaisCurtidas.OrderByDescending(q => q.curtidas);
+            foreach(var item in maisCurtidasOrdenado)
+            {
+                Console.WriteLine("{0}  ---  {1}",item.nome , item.curtidas);
             }
             
-            
         }
+
 
         //public static async void DesseguirQuemEuSigoENaoMeSegue(string username)
         //{ 
@@ -150,6 +173,7 @@ namespace InstaTeste
         //}
 
     }
-
 }
+
+
 
