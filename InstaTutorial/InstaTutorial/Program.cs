@@ -6,13 +6,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InstaTutorial;
+using System.Threading.Tasks;
 
 namespace InstaTeste
 {
     public class Program
     {
-        private const string username = "ferreira_gabriel1996";
-        private const string password = "498776498776";
+        private const string username = "viniciusbrittoe";
+        private const string password = "capirotto";
         private static UserSessionData user;
         private static IInstaApi api;
 
@@ -27,6 +28,9 @@ namespace InstaTeste
 
         public static async void Login()
         {
+
+          
+
             api = InstaApiBuilder.CreateBuilder().SetUser(user)
                     .UseLogger(new DebugLogger(LogLevel.Exceptions))
                     //.SetRequestDelay(TimeSpan.FromSeconds(8))
@@ -42,8 +46,12 @@ namespace InstaTeste
                 //await api.GetUserInfoByUsernameAsync("duduaudsonn");
                 //var jesus = await api.GetUserInfoByUsernameAsync("duduaudsonn");
                 //var jesus = await api.GetUserStoryFeedAsync(5597106522);
-                var Comentario = await api.CommentMediaAsync("1864758539671613875", "@gustavo.elizia");
-                //MaisCurtidasNasFotos("carol.m10");
+                //var Comentario = await api.CommentMediaAsync("1864758539671613875", "@gustavo.elizia");
+                List<MaisCurtidas> MaisCurtidas = await MaisCurtidasNasFotos("viniciusbrittoe");
+                //QUEMMESEGUE("ferreira_gabriel1996");
+                List<Seguidores> CemUltimos = await PessoasQueNaoMeSeguem();
+                PessoasNaoRelevantes(CemUltimos, MaisCurtidas); 
+
             }
             else
             {
@@ -51,7 +59,8 @@ namespace InstaTeste
             }
         }
 
-        public static async void MaisCurtidasNasFotos(string username)
+        public static async Task<List<MaisCurtidas>> MaisCurtidasNasFotos(string username)
+            
         {
             List<MaisCurtidas> MaisCurtidas = new List<MaisCurtidas>();
             List<MaisCurtidas> MaisCurtidasAuxiliar = new List<MaisCurtidas>();
@@ -93,13 +102,74 @@ namespace InstaTeste
                 MaisCurtidasAuxiliar.Clear();
             }
 
-            var maisCurtidasOrdenado = MaisCurtidas.OrderByDescending(q => q.curtidas);
+            List<MaisCurtidas> maisCurtidasOrdenado = MaisCurtidas.OrderByDescending(q => q.curtidas).ToList();
             foreach (var item in maisCurtidasOrdenado)
             {
-                Console.WriteLine("{0}  ---  {1}", item.nome, item.curtidas);
+                
+                //Console.WriteLine("{0}  ---  {1}", item.nome, item.curtidas);
             }
 
+            return maisCurtidasOrdenado;
         }
+        public static async void QUEMMESEGUE(string username)
+        {
+            List<Seguidores> Seguidores = new List<Seguidores>();
+            var segui = await api.GetCurrentUserFollowersAsync(PaginationParameters.MaxPagesToLoad(8));
+            foreach (var item in segui.Value.ToList())
+            {
+                Seguidores s = new Seguidores();
+                s.meseguem = item.UserName;
+                Seguidores.Add(s);
+                
+                
+            }
+            foreach(var item in Seguidores)
+            {
+                //Console.WriteLine(item.meseguem);
+            }
+        }
+        public static async Task<List<Seguidores>> PessoasQueNaoMeSeguem()
+        {
+            List<Seguidores> Seguidores = new List<Seguidores>();
+            var segui = await api.GetCurrentUserFollowersAsync(PaginationParameters.MaxPagesToLoad(8));
+            foreach (var item in segui.Value.ToList())
+            {
+                Seguidores s = new Seguidores();
+                s.meseguem = item.UserName;
+                Seguidores.Add(s);
+            }
+            //var xx = Seguidores.Take(100);
+            List<Seguidores> ultimosCem = Seguidores.Skip(Math.Max(0, Seguidores.Count() - 100)).ToList();
+
+            List<Seguidores> CemUltimos = new List<Seguidores>();
+            foreach (var item in ultimosCem)
+            {
+  
+                CemUltimos.Add(item);
+               // Console.WriteLine(item.meseguem);
+            }
+            return ultimosCem;
+        }
+        public static async void PessoasNaoRelevantes(List<Seguidores> CemUltimos, List<MaisCurtidas> MaisCurtidas)
+        {
+            List<Seguidores> NaoImportantes = new List<Seguidores>();
+            //var teucu = MaisCurtidas.Where(q => q.nome == curtida.FullName); armazena a variavel no teucu
+            foreach (var item in CemUltimos)
+            {
+                if (MaisCurtidas.Any(q => q.nome == item.meseguem) == false)
+                {
+                    Seguidores curtida = new Seguidores();
+                    curtida.meseguem = item.meseguem;
+                    NaoImportantes.Add(curtida);
+                    Console.WriteLine(item.meseguem);
+
+
+                }
+            }
+           
+        }   
+
+        //var xx = MaisCurtidas.Where(q => q.curtidas > 2);
 
 
         //public static async void DesseguirQuemEuSigoENaoMeSegue(string username)
