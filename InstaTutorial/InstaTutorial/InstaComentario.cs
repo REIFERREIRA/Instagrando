@@ -11,7 +11,7 @@ namespace InstaTutorial
 {
     public class InstaComentario
     {
-        public static async void XXXXXXXXXX(string username, IInstaApi api)
+        public  async void Comentarios(string username, IInstaApi api)
         {
             List<MaisCurtidas> MaisCurtidas = new List<MaisCurtidas>();
             List<MaisCurtidas> MaisCurtidasAuxiliar = new List<MaisCurtidas>();

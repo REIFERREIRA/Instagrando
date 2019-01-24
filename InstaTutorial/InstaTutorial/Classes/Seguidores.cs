@@ -11,10 +11,8 @@ namespace InstaTutorial
     
         public string seguindo { get; set; }
         public string meseguem { get; set; }
-        public long  id { get; set; }
-
-
-
+            
+        
     }
 }
 
